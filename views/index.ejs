@@ -1,0 +1,38 @@
+<%- include("partials/header.ejs") %>
+
+<div style="display: flex">
+  <div>
+    <h1>Create a new blog</h1>
+    <form action="/submit" method="POST">
+      <h2>Enter title:</h2>
+      <input type="text" name="title" />
+      <br />
+      <h2>Write your blog:</h2>
+      <textarea name="blog" rows="10" cols="100"></textarea>
+      <br />
+      <input type="submit" value="Submit" />
+    </form>
+  </div>
+
+  <div>
+    <h2>Your Blogs</h2>
+    <% if(locals.titles && locals.blogs) { %>
+        <% for(let i=0; i<titles.length; i++){ %>
+            <h3><%= titles[i] %></h3>
+            <br>
+            <h4><%= blogs[i] %></h4>
+            <form action="/blogs/<%= i %>?_method=DELETE" method="POST">
+                <button type="submit">Delete</button>
+            </form>
+            <form action="/edit?_method=GET" method="POST">
+                <button type="submit" name="<%= i %>">Edit</button>
+            </form>
+            <!-- <button onclick="location.href='/edit'" name="">Edit</button> -->
+        <% } %>
+    <% } else { %>
+    <h3>Nothing to show</h3>
+    <% } %>
+  </div>
+</div>
+
+<%- include("partials/footer.ejs") %>
