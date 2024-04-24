@@ -33,7 +33,7 @@ app.post("/submit", (req,res) => {
 
 app.put("/blogs/:id", (req,res) => {
     const index = req.params.id;
-    console.log(index);
+    // console.log(index);
 
     if(req.body["title"] != ""){
         titleArr[index] = req.body["title"];
