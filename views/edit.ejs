@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/edit.css">
     <title>Document</title>
 </head>
 <body>
     <% if(locals.index && locals.titles && locals.blogs){ %>
         <form action="/blogs/<%= index %>?_method=PUT" method="POST">
             <h2>Enter title:</h2>
-            <input type="text" name="title" placeholder="<%= titles[index] %>"/>
+            <input type="text" name="title" class="inpts" placeholder="<%= titles[index] %>"/>
             <br />
             <h2>Write your blog:</h2>
-            <textarea name="blog" rows="10" cols="100" placeholder="<%= blogs[index] %>"></textarea>
+            <textarea name="blog" rows="10" cols="100" class="inpts" placeholder="<%= blogs[index] %>"></textarea>
             <br />
-            <input type="submit" value="Edit" />
+            <input type="submit" value="Edit" class="btn"/>
           </form>
     <% }else{ %> 
         <h1>Nothing to show</h1>  

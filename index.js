@@ -1,11 +1,16 @@
 import express from "express";
 import bodyParser from "body-parser";
 import methodOverride from "method-override";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 
 const app = express();
 const port = 3000;
 
-app.use(express.static("public"));
+app.use(express.static(join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(methodOverride('_method'));
 
@@ -13,7 +18,9 @@ const titleArr = [];
 const blogArr = [];
 
 app.get("/", (req,res) => {
-    res.render("index.ejs");
+    const titles = req.query.titles ? JSON.parse(req.query.titles) : [];
+    const blogs = req.query.blogs ? JSON.parse(req.query.blogs) : [];
+    res.render("index.ejs", { titles: titles, blogs: blogs });
 })
 
 app.get("/edit", (req,res) => {
@@ -42,7 +49,9 @@ app.put("/blogs/:id", (req,res) => {
         blogArr[index] = req.body["blog"];
     }
 
-    res.render("index.ejs", {titles: titleArr, blogs: blogArr});
+    // res.render("index.ejs", {titles: titleArr, blogs: blogArr});
+    // res.redirect('/');
+    res.redirect(`/?titles=${JSON.stringify(titleArr)}&blogs=${JSON.stringify(blogArr)}`);
     
 })
 
@@ -59,7 +68,8 @@ app.delete("/blogs/:id", (req, res) => {
         titleArr.splice(index,1);
         // res.sendStatus(204); // No content, successful deletion
         // res.redirect('/');
-        res.render("index.ejs", {titles: titleArr, blogs: blogArr});
+        res.redirect(`/?titles=${JSON.stringify(titleArr)}&blogs=${JSON.stringify(blogArr)}`);
+        // res.render("index.ejs", {titles: titleArr, blogs: blogArr});
     } else {
         res.sendStatus(404); // Not found
     }
